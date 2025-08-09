@@ -45,10 +45,41 @@ products.forEach((product) => {
                         Added
                     </div>
 
-                    <button class="add-to-cart-button button-primary">
-                        Add to Cart
+                    <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">        
+                        Add to Cart   
                     </button>
         </div>`;
 });
 
+// data-product-id in the button class is in Kebab case now in the above 
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  
+document.querySelectorAll('.js-add-to-cart').forEach((button) => {          // here, forEach is used as its applied to every btn press in the page
+     
+    button.addEventListener('click', ()=> {
+        const product_Id = button.dataset.productId;                  // Now "productId" is in camel case when fetched using dataset property
+
+        let matchingItem;
+
+        cart.forEach((item) =>{
+            if(product_Id === item.productId){
+                matchingItem = item;
+            }
+        });                                     // here item is refered to each entire object and not just the productId 
+
+        if(matchingItem){
+            matchingItem.quantity +=1;
+        }else{
+            cart.push(
+                {
+                    productId : product_Id,
+                    quantity:1
+                }
+            );
+        }
+
+        console.log(cart);
+    });
+
+});
