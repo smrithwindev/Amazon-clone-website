@@ -20,7 +20,7 @@ if(matchingItem){
     matchingItem.quantity +=1;
 }
 else
-{
+{ 
 cart.push(
     {
         productId : product_Id,
@@ -28,4 +28,17 @@ cart.push(
     }
 );
 }
+}
+
+
+export function RemoveFromCart(productId)
+{
+    let newCart = [];
+
+    cart.forEach((cartItem) =>{
+        if(productId !== cartItem.productId){
+            newCart.push(cartItem);
+        }
+    });
+    newCart = cart;
 }
