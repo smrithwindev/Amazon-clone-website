@@ -3,6 +3,8 @@ import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 let productsHTML = '';
 
+let cartQuantity= 0; // Initialize cart quantity
+
 products.forEach((product) => {
     productsHTML += `<div class="product-container">
                     <div class="product-image-container">
@@ -59,12 +61,12 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
-function UpdateCartQuantity(){
-let cartQuantity=0;
+function UpdateCartQuantity(cartQuantity){
 
     cart.forEach((item) => {
         cartQuantity += item.quantity;
     });
+    return cartQuantity;
 }
   
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {          // here, forEach is used as its applied to every btn press in the page
@@ -75,9 +77,9 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {          // h
   
        addToCart(product_Id);
 
-       UpdateCartQuantity();
+        let quant = UpdateCartQuantity(cartQuantity);
 
-        document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+        document.querySelector('.js-cart-quantity').innerHTML = quant;
     });
 
 });

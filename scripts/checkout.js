@@ -109,6 +109,7 @@ document.querySelectorAll('.js-delete-quantity-link').forEach((link) =>{
 
         container.remove();
  
+  
   });
 
 });
