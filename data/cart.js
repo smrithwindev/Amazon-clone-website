@@ -40,5 +40,11 @@ export function RemoveFromCart(productId)
             newCart.push(cartItem);
         }
     });
-    newCart = cart;
+    cart.length = 0; // Clear the existing cart
+    newCart.forEach((item) => {
+        cart.push(item);
+    });
+
+    // Optionally, you can return the updated cart
+    return cart;    
 }
