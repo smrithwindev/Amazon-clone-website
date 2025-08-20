@@ -113,3 +113,12 @@ document.querySelectorAll('.js-delete-quantity-link').forEach((link) =>{
   });
 
 });
+
+let total_quan =0; 
+
+cart.forEach((items) => {
+  total_quan += items.quantity;
+});
+
+
+document.querySelector('.js-return-to-home-link').innerHTML = `${total_quan} items`;

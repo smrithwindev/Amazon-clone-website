@@ -58,6 +58,8 @@ products.forEach((product) => {
 
 // data-product-id in the button class is in Kebab case now in the above 
 
+
+
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
 
@@ -83,4 +85,6 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {          // h
     });
 
 });
+
+
 
