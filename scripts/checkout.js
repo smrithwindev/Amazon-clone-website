@@ -1,9 +1,10 @@
 import {cart,RemoveFromCart,updateDeliveryOption} from '../data/cart.js';
-import {products} from '../data/products.js';
+import {products,getProduct} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
 import {hello} from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import { renderPaymentSummary } from './checkout/paymentSummary.js';
 
 function renderOrderSummary(){
   let cartSummaryHTML='';
@@ -16,13 +17,7 @@ function renderOrderSummary(){
   cart.forEach((cartItems) =>{
       const product_Id = cartItems.productId;
 
-      let matchingProduct;
-
-      products.forEach((product) =>{
-          if(product.id === product_Id){
-              matchingProduct = product;
-          }
-      });
+      const matchingProduct = getProduct(product_Id);
 
       const deliveryOptionId = cartItems.deliveryOptionId;
 
@@ -164,3 +159,5 @@ function renderOrderSummary(){
 }
 
 renderOrderSummary();
+
+renderPaymentSummary();
