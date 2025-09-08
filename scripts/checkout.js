@@ -4,6 +4,7 @@ import { formatCurrency } from './utils/money.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import { renderPaymentSummary } from './checkout/paymentSummary.js';
+import { renderCheckoutHeader } from './checkout/checkoutHeader.js';
 
 function renderOrderSummary(){
   let cartSummaryHTML='';
@@ -121,6 +122,8 @@ function renderOrderSummary(){
           container.remove();
   
           renderPaymentSummary();
+
+          renderCheckoutHeader();
     });
 
   });
@@ -152,6 +155,7 @@ function renderOrderSummary(){
 
   document.querySelector('.js-return-to-home-link').innerHTML = `${total_quan} items`;
 }
+renderCheckoutHeader();
 
 renderOrderSummary();
 
