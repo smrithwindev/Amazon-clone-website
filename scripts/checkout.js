@@ -1,4 +1,4 @@
-import {cart,RemoveFromCart,updateDeliveryOption} from '../data/cart.js';
+import {cart,RemoveFromCart,updateDeliveryOption,saveLocalStorageCart,updateQuantity} from '../data/cart.js';
 import {products,getProduct} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import { deliveryOptions } from '../data/deliveryOptions.js';
@@ -50,9 +50,11 @@ function renderOrderSummary(){
                     <span>
                       Quantity: <span class="quantity-label">${cartItems.quantity}</span>
                     </span>
-                    <span class="update-quantity-link link-primary">
+                    <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${matchingProduct.id}">
                       Update
                     </span>
+                    <input class="quantity-input js-quantity-input-${matchingProduct.id}">
+                    <span class="save-quantity-link link-primary js-save-link" data-product-id=${matchingProduct.id}>Save</span>
                     <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id=${matchingProduct.id}>
                       Delete
                     </span>
@@ -104,9 +106,6 @@ function renderOrderSummary(){
 
 
 
-
-  console.log(cartSummaryHTML);
-
   document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
 
   document.querySelectorAll('.js-delete-quantity-link').forEach((link) =>{
@@ -126,6 +125,35 @@ function renderOrderSummary(){
           renderCheckoutHeader();
     });
 
+  });
+
+  document.querySelectorAll('.js-update-quantity-link').forEach((link)=>{
+    link.addEventListener('click',() =>{
+      const product_Id = link.dataset.productId;
+      console.log(product_Id);
+      const container = document.querySelector(`.js-cart-item-container-${product_Id}`);
+      container.classList.add('is-editing-quantity');
+    });
+  });
+
+  document.querySelectorAll('.js-save-link').forEach((link)=> {
+    link.addEventListener('click', ()=>{
+      const productId = link.dataset.productId;
+      const container =document.querySelector(`.js-cart-item-container-${productId}`);
+      container.classList.remove('is-editing-quantity');
+
+      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      const newQuantity = Number(quantityInput.value);
+      const quantityLabel = container.querySelector('.quantity-label');
+      quantityLabel.textContent = newQuantity;
+      updateQuantity(productId, newQuantity);
+      saveLocalStorageCart();
+      renderCheckoutHeader();
+      
+      renderPaymentSummary();
+
+      renderOrderSummary();
+    });
   });
 
 
@@ -157,6 +185,7 @@ function renderOrderSummary(){
 }
 renderCheckoutHeader();
 
+renderPaymentSummary();
+
 renderOrderSummary();
 
-renderPaymentSummary();
